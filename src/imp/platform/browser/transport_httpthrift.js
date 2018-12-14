@@ -62,6 +62,9 @@ export default class TransportBrowser {
     // interrupted as a normal Thirft RPC would when navigating away from
     // the page.
     _reportAsyncScript(auth, report, done) {
+        if (!self.document) {
+            return;
+        }
         let authJSON   = JSON.stringify(auth.toThrift());
         let reportJSON = JSON.stringify(report.toThrift());
         let protocol = (this._encryption === 'none') ? 'http' : 'https';
@@ -69,13 +72,13 @@ export default class TransportBrowser {
             `?auth=${encodeURIComponent(authJSON)}` +
             `&report=${encodeURIComponent(reportJSON)}`;
 
-        let elem = document.createElement('script');
+        let elem = self.document.createElement('script');
         elem.async = true;
         elem.defer = true;
         elem.src = url;
         elem.type = 'text/javascript';
 
-        let hostElem = document.getElementsByTagName('head')[0];
+        let hostElem = self.document.getElementsByTagName('head')[0];
         if (hostElem) {
             hostElem.appendChild(elem);
         }

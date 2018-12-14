@@ -20,14 +20,14 @@ class InstrumentPageLoad {
         }
         this._inited = true;
 
-        if (typeof window !== 'object' || typeof document !== 'object') {
+        if (!self.window || !self.document) {
             return;
         }
 
         const currentOptions = tracerImp.options();
         if (currentOptions.instrument_page_load) {
             this._ensureSpanStarted(tracerImp);
-            document.addEventListener('readystatechange', this._handleReadyStateChange.bind(this));
+            self.document.addEventListener('readystatechange', this._handleReadyStateChange.bind(this));
         }
     }
 
@@ -42,16 +42,16 @@ class InstrumentPageLoad {
     }
 
     _handleReadyStateChange() {
-        if (!this._span) {
+        if (!this._span || !self.document) {
             return;
         }
 
         let span = this._span;
-        let state = document.readyState;
+        let state = self.document.readyState;
         let payload = undefined;
         if (state === 'complete') {
             payload = {};
-            if (window.performance && performance.timing) {
+            if (self.performance && performance.timing) {
                 this._addTimingSpans(span, performance.timing);
                 payload['window.performance.timing'] = performance.timing;
             }
@@ -138,8 +138,8 @@ class InstrumentPageLoad {
             }, value);
         });
 
-        if (window.chrome && window.chrome.loadTimes) {
-            let chromeTimes = window.chrome.loadTimes();
+        if (self.chrome && self.chrome.loadTimes) {
+            let chromeTimes = self.chrome.loadTimes();
             if (chromeTimes) {
                 parentImp.log({
                     message : 'window.chrome.loadTimes()',

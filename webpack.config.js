@@ -1,3 +1,4 @@
+// @ts-check
 const path = require('path');
 
 const webpack = require('webpack');
@@ -23,10 +24,11 @@ if (DEBUG) {
 //
 const bundleName = `lightstep-tracer${bundleSuffix}`;
 
+/** @type {import('webpack').Configuration} */
 module.exports = {
     mode    : DEBUG ? 'development' : 'production',
     entry   : './src/lib.js',
-    target  : 'web',
+    target  : 'webworker',
     devtool : devtool,
     output  : {
         path          : path.resolve(__dirname, 'dist'),

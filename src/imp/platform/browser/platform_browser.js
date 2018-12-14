@@ -7,10 +7,10 @@ const kCookieTimeToLiveSeconds = 7 * 24 * 60 * 60;
 
 let nowMicrosImp = (function () {
     // Is a hi-res timer available?
-    if (window.performance &&
-        window.performance.now &&
-        window.performance.timing &&
-        window.performance.timing.navigationStart) {
+    if (self.performance &&
+        self.performance.now &&
+        self.performance.timing &&
+        self.performance.timing.navigationStart) {
         let start = performance.timing.navigationStart;
         return function () {
             return Math.floor((start + performance.now()) * 1000.0);
@@ -62,8 +62,8 @@ class PlatformBrowser {
     }
 
     onBeforeExit(...args) {
-        if (window) {
-            window.addEventListener('beforeunload', ...args);
+        if (self) {
+            self.addEventListener('beforeunload', ...args);
         }
     }
 
@@ -92,10 +92,10 @@ class PlatformBrowser {
         }
     }
     static initGlobalTracer(lib, opts) {
-        if (typeof window !== 'object') {
+        if (typeof self !== 'object') {
             return;
         }
-        if (typeof window.opentracing !== 'object') {
+        if (typeof self.opentracing !== 'object') {
             return;
         }
         opentracing.initGlobalTracer(new lib.Tracer(opts));  // eslint-disable-line no-undef
@@ -114,7 +114,7 @@ class PlatformBrowser {
     }
 
     localStoreGet(key) {
-        if (!window.sessionStorage) {
+        if (!self.window || window.sessionStorage) {
             return null;
         }
         try {
@@ -125,7 +125,7 @@ class PlatformBrowser {
     }
 
     localStoreSet(key, value) {
-        if (!window.sessionStorage) {
+        if (!self.window || !self.window.sessionStorage) {
             return;
         }
         try {

@@ -3,7 +3,10 @@
 // included -- thus 'this' script is the last one in the array at the time
 // this is run.
 let hostScriptElement = (function () {
-    let scripts = document.getElementsByTagName('SCRIPT');
+    if (!self.document) {
+        return;
+    }
+    let scripts = self.document.getElementsByTagName('SCRIPT');
     if (!(scripts.length > 0)) {
         return null;
     }
@@ -12,11 +15,11 @@ let hostScriptElement = (function () {
 
 function urlQueryParameters(defaults) {
     let vars = {};
-    let qi = window.location.href.indexOf('?');
+    let qi = location.href.indexOf('?');
     if (qi < 0) {
         return vars;
     }
-    let slice = window.location.href.slice(qi + 1);
+    let slice = location.href.slice(qi + 1);
     if (slice.indexOf('#') >= 0) {
         slice = slice.slice(0, slice.indexOf('#'));
     }
@@ -112,7 +115,7 @@ module.exports.parseScriptElementOptions = function (opts, browserOpts) {
 // require any code or configuration changes.
 //
 module.exports.parseURLQueryOptions = function (opts) {
-    if (!window) {
+    if (!self.window) {
         return;
     }
 

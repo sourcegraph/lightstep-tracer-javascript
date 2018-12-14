@@ -4,7 +4,7 @@ import * as opentracing from 'opentracing';
 // Capture the proxied values on script load (i.e. ASAP) in case there are
 // multiple layers of instrumentation.
 let proxied = {};
-if (typeof window === 'object' && typeof window.XMLHttpRequest !== 'undefined') {
+if (self.window && typeof self.window.XMLHttpRequest !== 'undefined') {
     proxied = {
         XMLHttpRequest   : XMLHttpRequest,
         open             : XMLHttpRequest.prototype.open,
@@ -14,10 +14,10 @@ if (typeof window === 'object' && typeof window.XMLHttpRequest !== 'undefined') 
 }
 
 function getCookies() {
-    if (typeof document === 'undefined' || !document.cookie) {
+    if (!self.document || !self.document.cookie) {
         return null;
     }
-    let cookies = document.cookie.split(';');
+    let cookies = self.document.cookie.split(';');
     let data = {};
     let count = 0;
     for (let i = 0; i < cookies.length; i++) {
@@ -152,13 +152,13 @@ class InstrumentXHR {
      * There are a lot of potential JavaScript platforms.
      */
     _isValidContext() {
-        if (typeof window === 'undefined') {
+        if (!self.window) {
             return false;
         }
-        if (!window.XMLHttpRequest) {
+        if (!self.window.XMLHttpRequest) {
             return false;
         }
-        if (!window.XMLHttpRequest.prototype) {
+        if (!self.window.XMLHttpRequest.prototype) {
             return false;
         }
         return true;

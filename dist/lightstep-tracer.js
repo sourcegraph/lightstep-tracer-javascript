@@ -7,7 +7,7 @@
 		exports["lightstep"] = factory();
 	else
 		root["lightstep"] = factory();
-})(window, function() {
+})(self, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -13400,10 +13400,10 @@ module.exports = g;
 /*!**********************!*\
   !*** ./package.json ***!
   \**********************/
-/*! exports provided: name, version, main, engines, scripts, license, repository, dependencies, devDependencies, default */
+/*! exports provided: name, description, version, main, engines, scripts, license, repository, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"lightstep-tracer","version":"0.20.14","main":"index.js","engines":{"node":">=0.12.0"},"scripts":{"test":"rm -f test/results/*.json && node node_modules/mocha/bin/mocha -c test/unittest_node.js"},"license":"MIT","repository":{"type":"git","url":"http://github.com/lightstep/lightstep-tracer-javascript.git"},"dependencies":{"async":"1.5.0","eventemitter3":"1.1.1","google-protobuf":"3.6.1","hex2dec":"1.0.1","source-map-support":"0.3.3","thrift":"0.10.0"},"devDependencies":{"babel-cli":"6.14.0","babel-core":"6.3.26","babel-loader":"7","babel-plugin-add-module-exports":"0.1.2","babel-plugin-check-es2015-constants":"6.7.2","babel-plugin-transform-es2015-arrow-functions":"6.5.2","babel-plugin-transform-es2015-block-scoped-functions":"6.6.5","babel-plugin-transform-es2015-block-scoping":"6.7.1","babel-plugin-transform-es2015-classes":"6.6.5","babel-plugin-transform-es2015-computed-properties":"6.6.5","babel-plugin-transform-es2015-destructuring":"6.6.5","babel-plugin-transform-es2015-duplicate-keys":"6.6.4","babel-plugin-transform-es2015-literals":"6.5.0","babel-plugin-transform-es2015-modules-commonjs":"6.7.4","babel-plugin-transform-es2015-object-super":"6.6.5","babel-plugin-transform-es2015-parameters":"6.7.0","babel-plugin-transform-es2015-spread":"6.6.5","babel-plugin-transform-es2015-sticky-regex":"6.5.0","babel-plugin-transform-es2015-template-literals":"6.6.5","babel-plugin-transform-es2015-unicode-regex":"6.5.0","babel-polyfill":"6.3.14","babel-preset-es2015":"6.3.13","chai":"3.4.1","clone":"1.0.2","colors":"1.1.2","eslint":"2.4.0","eslint-config-airbnb":"6.2.0","eslint-plugin-react":"4.2.3","express":"^4.16.3","istanbul":"0.4.4","mocha":"2.3.4","opentracing":"0.14.3","protobufjs":"6.8.8","shelljs":"0.5.3","sprintf-js":"1.0.3","underscore":"1.8.3","watch-trigger":"0.0.5","webpack":"^4.25.1","webpack-cli":"^3.1.2"}};
+module.exports = {"name":"@sourcegraph/lightstep-tracer-webworker","description":"Fork of lightstep-tracer for WebWorkers","version":"0.20.14-browser","main":"index.js","engines":{"node":">=0.12.0"},"scripts":{"test":"rm -f test/results/*.json && node node_modules/mocha/bin/mocha -c test/unittest_node.js"},"license":"MIT","repository":{"type":"git","url":"http://github.com/lightstep/lightstep-tracer-javascript.git"},"dependencies":{"async":"1.5.0","eventemitter3":"1.1.1","google-protobuf":"3.6.1","hex2dec":"1.0.1","source-map-support":"0.3.3","thrift":"0.10.0"},"devDependencies":{"babel-cli":"6.14.0","babel-core":"6.3.26","babel-loader":"7","babel-plugin-add-module-exports":"0.1.2","babel-plugin-check-es2015-constants":"6.7.2","babel-plugin-transform-es2015-arrow-functions":"6.5.2","babel-plugin-transform-es2015-block-scoped-functions":"6.6.5","babel-plugin-transform-es2015-block-scoping":"6.7.1","babel-plugin-transform-es2015-classes":"6.6.5","babel-plugin-transform-es2015-computed-properties":"6.6.5","babel-plugin-transform-es2015-destructuring":"6.6.5","babel-plugin-transform-es2015-duplicate-keys":"6.6.4","babel-plugin-transform-es2015-literals":"6.5.0","babel-plugin-transform-es2015-modules-commonjs":"6.7.4","babel-plugin-transform-es2015-object-super":"6.6.5","babel-plugin-transform-es2015-parameters":"6.7.0","babel-plugin-transform-es2015-spread":"6.6.5","babel-plugin-transform-es2015-sticky-regex":"6.5.0","babel-plugin-transform-es2015-template-literals":"6.6.5","babel-plugin-transform-es2015-unicode-regex":"6.5.0","babel-polyfill":"6.3.14","babel-preset-es2015":"6.3.13","chai":"3.4.1","clone":"1.0.2","colors":"1.1.2","eslint":"2.4.0","eslint-config-airbnb":"6.2.0","eslint-plugin-react":"4.2.3","express":"^4.16.3","istanbul":"0.4.4","mocha":"2.3.4","opentracing":"0.14.3","protobufjs":"6.8.8","shelljs":"0.5.3","sprintf-js":"1.0.3","underscore":"1.8.3","watch-trigger":"0.0.5","webpack":"^4.25.1","webpack-cli":"^3.1.2"}};
 
 /***/ }),
 
@@ -18017,7 +18017,10 @@ module.exports = __webpack_require__(/*! ./generated/thrift_all.js */ "./src/imp
 // included -- thus 'this' script is the last one in the array at the time
 // this is run.
 var hostScriptElement = function () {
-    var scripts = document.getElementsByTagName('SCRIPT');
+    if (!self.document) {
+        return;
+    }
+    var scripts = self.document.getElementsByTagName('SCRIPT');
     if (!(scripts.length > 0)) {
         return null;
     }
@@ -18026,11 +18029,11 @@ var hostScriptElement = function () {
 
 function urlQueryParameters(defaults) {
     var vars = {};
-    var qi = window.location.href.indexOf('?');
+    var qi = location.href.indexOf('?');
     if (qi < 0) {
         return vars;
     }
-    var slice = window.location.href.slice(qi + 1);
+    var slice = location.href.slice(qi + 1);
     if (slice.indexOf('#') >= 0) {
         slice = slice.slice(0, slice.indexOf('#'));
     }
@@ -18126,7 +18129,7 @@ module.exports.parseScriptElementOptions = function (opts, browserOpts) {
 // require any code or configuration changes.
 //
 module.exports.parseURLQueryOptions = function (opts) {
-    if (!window) {
+    if (!self.window) {
         return;
     }
 
@@ -18166,7 +18169,7 @@ var kCookieTimeToLiveSeconds = 7 * 24 * 60 * 60;
 
 var nowMicrosImp = function () {
     // Is a hi-res timer available?
-    if (window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart) {
+    if (self.performance && self.performance.now && self.performance.timing && self.performance.timing.navigationStart) {
         var _ret = function () {
             var start = performance.timing.navigationStart;
             return {
@@ -18236,14 +18239,14 @@ var PlatformBrowser = function () {
     }, {
         key: 'onBeforeExit',
         value: function onBeforeExit() {
-            if (window) {
-                var _window;
+            if (self) {
+                var _self;
 
                 for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                     args[_key] = arguments[_key];
                 }
 
-                (_window = window).addEventListener.apply(_window, ['beforeunload'].concat(args));
+                (_self = self).addEventListener.apply(_self, ['beforeunload'].concat(args));
             }
         }
     }, {
@@ -18279,7 +18282,7 @@ var PlatformBrowser = function () {
     }, {
         key: 'localStoreGet',
         value: function localStoreGet(key) {
-            if (!window.sessionStorage) {
+            if (!self.window || window.sessionStorage) {
                 return null;
             }
             try {
@@ -18291,7 +18294,7 @@ var PlatformBrowser = function () {
     }, {
         key: 'localStoreSet',
         value: function localStoreSet(key, value) {
-            if (!window.sessionStorage) {
+            if (!self.window || !self.window.sessionStorage) {
                 return;
             }
             try {
@@ -18312,10 +18315,10 @@ var PlatformBrowser = function () {
     }, {
         key: 'initGlobalTracer',
         value: function initGlobalTracer(lib, opts) {
-            if (typeof window !== 'object') {
+            if (typeof self !== 'object') {
                 return;
             }
-            if (typeof window.opentracing !== 'object') {
+            if (typeof self.opentracing !== 'object') {
                 return;
             }
             opentracing.initGlobalTracer(new lib.Tracer(opts)); // eslint-disable-line no-undef
@@ -18533,18 +18536,21 @@ var TransportBrowser = function () {
     }, {
         key: '_reportAsyncScript',
         value: function _reportAsyncScript(auth, report, done) {
+            if (!self.document) {
+                return;
+            }
             var authJSON = JSON.stringify(auth.toThrift());
             var reportJSON = JSON.stringify(report.toThrift());
             var protocol = this._encryption === 'none' ? 'http' : 'https';
             var url = protocol + '://' + this._host + ':' + this._port + this._path + '/_rpc/v1/reports/uri_encoded' + ('?auth=' + encodeURIComponent(authJSON)) + ('&report=' + encodeURIComponent(reportJSON));
 
-            var elem = document.createElement('script');
+            var elem = self.document.createElement('script');
             elem.async = true;
             elem.defer = true;
             elem.src = url;
             elem.type = 'text/javascript';
 
-            var hostElem = document.getElementsByTagName('head')[0];
+            var hostElem = self.document.getElementsByTagName('head')[0];
             if (hostElem) {
                 hostElem.appendChild(elem);
             }
@@ -18575,12 +18581,15 @@ module.exports = exports['default'];
 // This function is copied directly from https://github.com/litejs/browser-cookie-lite.
 // It is licensed under the MIT License and authored by Lauri Rooden.
 function cookie(name, value, ttl, path, domain, secure) {
+    if (!self.document) {
+        return '';
+    }
     if (arguments.length > 1) {
         var newCookie = name + '=' + encodeURIComponent(value) + (ttl ? "; expires=" + new Date(+new Date() + ttl * 1000).toUTCString() : '') + (path ? "; path=" + path : '') + (domain ? "; domain=" + domain : '') + (secure ? "; secure" : '');
-        document.cookie = newCookie;
+        self.document.cookie = newCookie;
         return newCookie;
     }
-    return decodeURIComponent((("; " + document.cookie).split("; " + name + "=")[1] || "").split(";")[0]);
+    return decodeURIComponent((("; " + self.document.cookie).split("; " + name + "=")[1] || "").split(";")[0]);
 }
 
 /* eslint-enable */
@@ -20913,16 +20922,14 @@ module.exports = library;
 // Hide the differences in how the Thrift compiler generates code for the
 // different platforms as well as expose a Platform class to abstract a few
 // general differences in the platforms.
-if (true) {
-    module.exports = {
-        Platform: __webpack_require__(/*! ./imp/platform/browser/platform_browser.js */ "./src/imp/platform/browser/platform_browser.js"),
-        ThriftTransport: __webpack_require__(/*! ./imp/platform/browser/transport_httpthrift.js */ "./src/imp/platform/browser/transport_httpthrift.js"),
-        ProtoTransport: __webpack_require__(/*! ./imp/platform/browser/transport_httpproto.js */ "./src/imp/platform/browser/transport_httpproto.js"),
-        thrift: __webpack_require__(/*! ./imp/platform/browser/thrift.js */ "./src/imp/platform/browser/thrift.js"),
-        crouton_thrift: __webpack_require__(/*! ./imp/platform/browser/crouton_thrift.js */ "./src/imp/platform/browser/crouton_thrift.js"),
-        proto: __webpack_require__(/*! ./imp/generated_proto/collector_pb.js */ "./src/imp/generated_proto/collector_pb.js")
-    };
-} else {}
+module.exports = {
+    Platform: __webpack_require__(/*! ./imp/platform/browser/platform_browser.js */ "./src/imp/platform/browser/platform_browser.js"),
+    ThriftTransport: __webpack_require__(/*! ./imp/platform/browser/transport_httpthrift.js */ "./src/imp/platform/browser/transport_httpthrift.js"),
+    ProtoTransport: __webpack_require__(/*! ./imp/platform/browser/transport_httpproto.js */ "./src/imp/platform/browser/transport_httpproto.js"),
+    thrift: __webpack_require__(/*! ./imp/platform/browser/thrift.js */ "./src/imp/platform/browser/thrift.js"),
+    crouton_thrift: __webpack_require__(/*! ./imp/platform/browser/crouton_thrift.js */ "./src/imp/platform/browser/crouton_thrift.js"),
+    proto: __webpack_require__(/*! ./imp/generated_proto/collector_pb.js */ "./src/imp/generated_proto/collector_pb.js")
+};
 
 /***/ }),
 
@@ -20972,14 +20979,14 @@ var InstrumentPageLoad = function () {
             }
             this._inited = true;
 
-            if (typeof window !== 'object' || typeof document !== 'object') {
+            if (!self.window || !self.document) {
                 return;
             }
 
             var currentOptions = tracerImp.options();
             if (currentOptions.instrument_page_load) {
                 this._ensureSpanStarted(tracerImp);
-                document.addEventListener('readystatechange', this._handleReadyStateChange.bind(this));
+                self.document.addEventListener('readystatechange', this._handleReadyStateChange.bind(this));
             }
         }
     }, {
@@ -20996,16 +21003,16 @@ var InstrumentPageLoad = function () {
     }, {
         key: '_handleReadyStateChange',
         value: function _handleReadyStateChange() {
-            if (!this._span) {
+            if (!this._span || !self.document) {
                 return;
             }
 
             var span = this._span;
-            var state = document.readyState;
+            var state = self.document.readyState;
             var payload = undefined;
             if (state === 'complete') {
                 payload = {};
-                if (window.performance && performance.timing) {
+                if (self.performance && performance.timing) {
                     this._addTimingSpans(span, performance.timing);
                     payload['window.performance.timing'] = performance.timing;
                 }
@@ -21101,8 +21108,8 @@ var InstrumentPageLoad = function () {
                 }, value);
             });
 
-            if (window.chrome && window.chrome.loadTimes) {
-                var chromeTimes = window.chrome.loadTimes();
+            if (self.chrome && self.chrome.loadTimes) {
+                var chromeTimes = self.chrome.loadTimes();
                 if (chromeTimes) {
                     parentImp.log({
                         message: 'window.chrome.loadTimes()',
@@ -21155,7 +21162,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // Capture the proxied values on script load (i.e. ASAP) in case there are
 // multiple layers of instrumentation.
 var proxied = {};
-if (typeof window === 'object' && typeof window.XMLHttpRequest !== 'undefined') {
+if (self.window && typeof self.window.XMLHttpRequest !== 'undefined') {
     proxied = {
         XMLHttpRequest: XMLHttpRequest,
         open: XMLHttpRequest.prototype.open,
@@ -21165,10 +21172,10 @@ if (typeof window === 'object' && typeof window.XMLHttpRequest !== 'undefined') 
 }
 
 function getCookies() {
-    if (typeof document === 'undefined' || !document.cookie) {
+    if (!self.document || !self.document.cookie) {
         return null;
     }
-    var cookies = document.cookie.split(';');
+    var cookies = self.document.cookie.split(';');
     var data = {};
     var count = 0;
     for (var i = 0; i < cookies.length; i++) {
@@ -21320,13 +21327,13 @@ var InstrumentXHR = function () {
     }, {
         key: '_isValidContext',
         value: function _isValidContext() {
-            if (typeof window === 'undefined') {
+            if (!self.window) {
                 return false;
             }
-            if (!window.XMLHttpRequest) {
+            if (!self.window.XMLHttpRequest) {
                 return false;
             }
-            if (!window.XMLHttpRequest.prototype) {
+            if (!self.window.XMLHttpRequest.prototype) {
                 return false;
             }
             return true;

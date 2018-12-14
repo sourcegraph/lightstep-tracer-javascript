@@ -15,7 +15,7 @@ build: node_modules build-node build-browser
 
 .PHONY: node_modules
 node_modules:
-	npm install
+	yarn
 
 .PHONY: build-browser
 build-browser: $(BUNDLE_JS)
