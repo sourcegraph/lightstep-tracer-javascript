@@ -1,8 +1,9 @@
 {
   "name": "@sourcegraph/lightstep-tracer-webworker",
   "description": "Fork of lightstep-tracer for WebWorkers",
-  "version": "0.20.14-browser",
+  "version": "0.20.14-webworker.2",
   "main": "index.js",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=0.12.0"
   },
