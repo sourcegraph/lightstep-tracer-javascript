@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "http://github.com/lightstep/lightstep-tracer-javascript.git"
+    "url": "http://github.com/sourcegraph/lightstep-tracer-javascript.git"
   },
   "dependencies": {
     "async": "1.5.0",
