@@ -75,7 +75,7 @@ The OpenTracing standard JavaScript API is [documented here](https://doc.esdoc.o
 
 * `instrument_page_load` `bool` - creates a long-lived single span for the entire page view and is recommended for short-page visits in a multi-page website. For a single-page web app, this behavior may be undesirable. Defaults to false. This must be set at initialization, changes after initialization will have no effect.
 
-* `xhr_instrumentation` `bool` - if false, disables automatic instrumentation of XMLHttpRequests (XHRs). This must be set at initialization; changes after initialization will have no effect. Defaults to false.  
+* `xhr_instrumentation` `bool` - if false, disables automatic instrumentation of XMLHttpRequests (XHRs). This must be set at initialization; changes after initialization will have no effect. Defaults to false.
 
 * `xhr_url_inclusion_patterns` `RegExp[]` - an array of regular expressions used to whitelist URLs for `XMLHttpRequest` auto-instrumentation. The default value is wildcard matching all strings. For a given URL to be instrumented, it must match at least one regular expression in `xhr_url_inclusion_patterns` and not match any regular expressions in `xhr_url_exclusion_patterns`.
 
@@ -92,7 +92,7 @@ The OpenTracing standard JavaScript API is [documented here](https://doc.esdoc.o
 * `default_span_tags` `string` *optional* - an associative array of tags to add to every span started by the tracer (e.g., the active user id in a browser client)
 * `delay_initial_report_millis` `int` *optional*, *default=1000* - maximum additional delay of the initial report in addition to the normal reporting interval. A value between zero and this maximum will be selected as the actual delay. This can be useful when concurrently launching a large number of new processes and there is a desire to distribute the initial reports over a window of time.
 * `error_throttle_millis` `int` *optional*, *default=60000* - when `verbosity` is set to `1`, this the minimum time between logged errors.
-* `transport` `string` *optional*, *default=thrift* - when `transport` is set to `proto`, the Tracer will use Proto over HTTP as a transport rather than Thrift.
+* ~~`transport` `string` *optional*, *default=thrift* - when `transport` is set to `proto`, the Tracer will use Proto over HTTP as a transport rather than Thrift.~~ ALWAYS THRIFT. GOOGLE PROTOBUFFERS USE `eval()` SO CANNOT RUN IN BROWSER EXTENSIONS: https://github.com/lightstep/lightstep-tracer-javascript/issues/141
 
 ### SpanImp
 
